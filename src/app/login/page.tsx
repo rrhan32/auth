@@ -3,6 +3,7 @@ import Link from "next/link";
 import React , {useState,useEffect} from 'react';
 import axios from 'axios'
 import { useRouter } from "next/navigation";
+import toast, { Toaster } from 'react-hot-toast';
 
 
 export default function LoginPage(){
@@ -29,9 +30,10 @@ export default function LoginPage(){
       setLoading(true);
       const response=await axios.post("/api/users/login",user);
       console.log("Login success", response.data);
-      router.push("/profile");
+      router.push("/profile?loginSuccess=true");
     }catch(e:any) {
       console.log("login failed",e.message);
+      toast.error("Either Email or Password is wrong");
     } finally{
       setLoading(false);
     }
@@ -40,6 +42,7 @@ export default function LoginPage(){
 
   return(
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
+        <Toaster position='top-center'/>
         <h1>{loading ? "Processing" : "Login"}</h1>
         <hr />
         
@@ -63,8 +66,12 @@ export default function LoginPage(){
             />
             <button
             onClick={onLogin}
-            className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600">Login here</button>
-            <Link href="/signup">Visit Signup page</Link>
+            className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 m-2">Login</button>
+            <div className="flex"> 
+            <div className='font-light small'>Create an accout</div>
+            <button
+            className="border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 "><Link className='text-blue-500' href="/signUp">Signup</Link></button>
+            </div>
         </div>
   )
 }
