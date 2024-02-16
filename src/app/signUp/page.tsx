@@ -15,9 +15,10 @@ export default function SignUp() {
   const onSignup=async()=>{
     try{
       setLoading(true);
-      const response=await axios.post("/api/users/signUp", user)
+      const response:any=await axios.post("/api/users/signUp", user)
       console.log("Signed up success" , response.data);
-      toast.success("successfully created");
+      if (response.data.message) toast.success("successfully created");
+      else if (response.data.error) toast.error("User already exists");
   }catch(e:any){
     console.log("signup failed", e.message);
     }
