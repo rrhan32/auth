@@ -11,6 +11,7 @@ export const sendEmail=async({email,emailType,userId}:any)=>{
             await User.findByIdAndUpdate(userId,
                 {verifyToken:hashedToken,verifyTokenExpiry:Date.now()+3600000
             })
+            console.log("verifiesd");
         }
         else if (emailType==="RESET")
         {
@@ -19,16 +20,16 @@ export const sendEmail=async({email,emailType,userId}:any)=>{
             
         }
     
+        console.log("here")
         var transport = nodemailer.createTransport({
             host: "sandbox.smtp.mailtrap.io",
             port: 2525,
             auth: {
-              user: process.env.DOMAIN_USERNAME,
-              pass: process.env.DOMAIN_PASSWORD,
-              //TODO: add these credentials to .env file
+              user: "1a0646dc1e616f",
+              pass: "bbd0245c87b5fc"
             }
           });
-
+        console.log("there")
         const mailOptions = {
             from: 'rohan@gmail.com',
             to: email,
@@ -44,6 +45,7 @@ export const sendEmail=async({email,emailType,userId}:any)=>{
 
     
     } catch (error:any ) {
+        console.log("error occured",error.message);
         throw new error (error.message);
         
     }

@@ -27,10 +27,12 @@ export async function POST(request: NextRequest) {
       password: hashedPassword,
     });
     const savedUser = await newUser.save();
-    console.log(savedUser);
+    // console.log(savedUser);
     
     //send verification email
+    console.log("email gone");
     await sendEmail({email,emailType:"VERIFY",userId:savedUser._id});
+    console.log("YESS");
     return NextResponse.json({ message: "successfully created the user" });
   } 
   
