@@ -11,7 +11,6 @@ export const sendEmail=async({email,emailType,userId}:any)=>{
             await User.findByIdAndUpdate(userId,
                 {verifyToken:hashedToken,verifyTokenExpiry:Date.now()+3600000
             })
-            console.log("verified");
         }
         else if (emailType==="RESET")
         {
@@ -24,8 +23,8 @@ export const sendEmail=async({email,emailType,userId}:any)=>{
             host: "sandbox.smtp.mailtrap.io",
             port: 2525,
             auth: {
-              user: "1a0646dc1e616f",
-              pass: "bbd0245c87b5fc",
+              user: process.env.DOMAIN_USERNAME,
+              pass: process.env.DOMAIN_PASSWORD,
               //TODO: add these credentials to .env file
             }
           });
@@ -40,12 +39,11 @@ export const sendEmail=async({email,emailType,userId}:any)=>{
         }
 
         const mailresponse=await transport.sendMail(mailOptions);
-        console.log("MAIL RESPONSE",mailresponse);
+        // console.log("MAIL RESPONSE",mailresponse);
         return mailresponse;
 
     
     } catch (error:any ) {
-        console.log("error occured");
         throw new error (error.message);
         
     }
