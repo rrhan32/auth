@@ -34,7 +34,7 @@ function Profile() {
     }
     const res = await axios.get("/api/users/me");
     console.log(res.data);
-    setData(res.data.data._id);
+    setData(res.data.data._id||"");
   };
   return (
     <div className="flex flex-col text-center justify-center min-h-screen text-red-600">
